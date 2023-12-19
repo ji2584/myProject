@@ -37,6 +37,7 @@
              
                         <li class="nav-item"><a class="nav-link" href="homepage">Home</a></li>
                         <li class="nav-item"><a class="nav-link" href="board">게시판</a></li>
+                       
               <%
 String login = (String)session.getAttribute("loginId");
 if(login==null){
@@ -44,9 +45,12 @@ if(login==null){
 %>
                         <li class="nav-item"><a class="nav-link" href="loginForm">로그인</a></li>
                         <li class="nav-item"><a class="nav-link" href="memberinput">회원가입</a></li>
+                        <li class= "nav-item"><a class="nav-link" href="loginForm" >객실예약</a></li>
                         <%} else  {%>
                         <li class="nav-item"><a class="nav-link" href="logout">로그아웃</a></li>
                         <li class="nav-item"><a class="nav-link" href="memberinfo">[<%=login%>]&nbsp;&nbsp;회원정보</a></li>
+                        <li class="nav-item"><a class="nav-link" href="reservationinput" >객실예약</a></li>
+                  
                      <%} %>
                     </ul>
                 </div>
