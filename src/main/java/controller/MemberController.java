@@ -1,5 +1,6 @@
 package controller;
 
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -10,7 +11,7 @@ import model.Member;
 
 import kic.mskim.MskimRequestMapping;
 import kic.mskim.RequestMapping;
-
+@WebServlet("/member/*")
 public class MemberController extends MskimRequestMapping {
 
 	@RequestMapping("memberinput")
@@ -45,6 +46,7 @@ public class MemberController extends MskimRequestMapping {
 
 		String id = request.getParameter("loginId");
 		String pass = request.getParameter("loginPw");
+		
 		MemberDao md = new MemberDao();
 		Member mem = md.oneMember(id);
 		HttpSession session = request.getSession();

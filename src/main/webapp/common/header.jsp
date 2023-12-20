@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-    
+    <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
     
  <head>
         <meta charset="utf-8" />
@@ -35,23 +35,19 @@
        <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
 
              
-                        <li class="nav-item"><a class="nav-link" href="homepage">Home</a></li>
-                        <li class="nav-item"><a class="nav-link" href="board">게시판</a></li>
+                        <li class="nav-item"><a class="nav-link" href="${pageContext.request.contextPath}/member/homepage">Home</a></li>
+                        <li class="nav-item"><a class="nav-link" href="${pageContext.request.contextPath}/member/board">게시판</a></li>
                        
-              <%
-String login = (String)session.getAttribute("loginId");
-if(login==null){
-
-%>
-                        <li class="nav-item"><a class="nav-link" href="loginForm">로그인</a></li>
-                        <li class="nav-item"><a class="nav-link" href="memberinput">회원가입</a></li>
-                        <li class= "nav-item"><a class="nav-link" href="loginForm" >객실예약</a></li>
-                        <%} else  {%>
-                        <li class="nav-item"><a class="nav-link" href="logout">로그아웃</a></li>
-                        <li class="nav-item"><a class="nav-link" href="memberinfo">[<%=login%>]&nbsp;&nbsp;회원정보</a></li>
-                        <li class="nav-item"><a class="nav-link" href="reservationinput" >객실예약</a></li>
-                  
-                     <%} %>
+  <c:if test = "${sessionScope.loginId == null}">
+                        <li class="nav-item"><a class="nav-link" href="${pageContext.request.contextPath}/member/loginForm">로그인</a></li>
+                        <li class="nav-item"><a class="nav-link" href="${pageContext.request.contextPath}/member/memberinput">회원가입</a></li>
+                        <li class= "nav-item"><a class="nav-link" href="${pageContext.request.contextPath}/member/loginForm" >객실예약</a></li>
+               </c:if>
+               <c:if test = "${sessionScope.loginId != null}">
+                        <li class="nav-item"><a class="nav-link" href="${pageContext.request.contextPath}/member/logout">로그아웃</a></li>
+                        <li class="nav-item"><a class="nav-link" href="${pageContext.request.contextPath}/member/memberinfo">${loginId}&nbsp;&nbsp;회원정보</a></li>
+                        <li class="nav-item"><a class="nav-link" href="${pageContext.request.contextPath}/member/reservationinput" >객실예약</a></li>
+                  </c:if>
                     </ul>
                 </div>
             </div>

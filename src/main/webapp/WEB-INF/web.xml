@@ -12,7 +12,7 @@
   
   
   
-  <servlet>
+  <!-- <servlet>
   
   <servlet-name>member</servlet-name>
   <servlet-class>controller.MemberController</servlet-class>
@@ -21,8 +21,8 @@
   
   <servlet-mapping>
   <servlet-name>member</servlet-name>
-  <url-pattern>/member/*</url-pattern> <!--/project명/member/aaaa  -->
-    </servlet-mapping>
+  <url-pattern>/member/*</url-pattern> /project명/member/aaaa 
+    </servlet-mapping> -->
     
     
     
@@ -30,6 +30,7 @@
   <jsp-config>
   <jsp-property-group>
        <url-pattern>/WEB-INF/view/member/*</url-pattern>
+       <url-pattern>/WEB-INF/view/board/*</url-pattern>
        <!-- url과 view(jsp위치)는 다른 폴더를 사용해야 한다 -->
        <include-prelude>/common/header.jsp</include-prelude>
        <include-coda>/common/footer.jsp</include-coda>
