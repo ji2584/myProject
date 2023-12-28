@@ -51,10 +51,10 @@
         <input type="text" id="name" name="name"><br><br>
         
         <label for="date">날짜:</label>
-        <input type="date" id="date" name="date"><br><br>
+        <input type="date" id="date" name="regdate"><br><br>
         
         <label for="time">시간:</label>
-        <input type="time" id="time" name="time"><br><br>
+        <input type="time" id="time" name="regtime"><br><br>
         
         
         <button type="submit">예약하기</button>

@@ -11,6 +11,8 @@ import java.util.List;
 import java.sql.Date;
 import javax.servlet.http.HttpServletRequest;
 
+
+import model.Comment;
 import model.MyBoard;
 
 
@@ -146,5 +148,90 @@ public class MyBoardDao {
        return pstmt.executeUpdate();
                    
     }
-   
+	  public List<Comment> commentList(int num) throws SQLException {
+			 Connection con = getConnection();
+	         PreparedStatement pstmt =
+	        		 con.prepareStatement("select * from myboardcomment where num=? order by regdate desc");
+	         pstmt.setInt(1, num);
+	         ResultSet rs = pstmt.executeQuery();
+	         List<Comment> i = new ArrayList<Comment>();
+	         while(rs.next()) {
+	        	 Comment c = new Comment();
+	        	 c.setNum(rs.getInt("num"));
+	        	 c.setContent(rs.getString("content"));
+	        	 i.add(c);
+	        	 
+	         }
+	         return i;
+		}
+
+	 public int insertComment(String comment, int num) throws UnsupportedEncodingException, SQLException {
+        	
+          Connection con = getConnection();
+          PreparedStatement pstmt = null;
+          String sql = "insert into myboardcomment values (myboardcomseq.nextval,?,?,sysdate)";    
+          pstmt = con.prepareStatement( sql );
+          pstmt.setInt(1,num);
+          pstmt.setString(2,comment);
+          return pstmt.executeUpdate();
+                      
+       }
+
+	public static List<BoardItem> searchBoard(String searchOption, String searchText) {
+		
+		        List<BoardItem> boardItems = new ArrayList<>();
+
+		        Connection conn = null;
+		        PreparedStatement pstmt = null;
+		        ResultSet rs = null;
+
+		        try {
+		            // JDBC 드라이버 로드
+		            Class.forName("oracle.jdbc.OracleDriver");
+		            conn = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:xe", "kic", "1111");
+
+		            // 쿼리 작성 (간단한 예시 - 검색 조건에 따라 쿼리를 조정해야 함)
+		            String query = "SELECT * FROM Myboard WHERE title=? ";
+		            if (searchOption.equals("title")) {
+		                query += "title LIKE ?";
+		            } else if (searchOption.equals("name")) {
+		                query += "name LIKE ?";
+		            }
+
+		            pstmt = conn.prepareStatement(query);
+		            pstmt.setString(1, "%" + searchText + "%");
+
+		            rs = pstmt.executeQuery();
+
+		            // 결과 처리
+		            while (rs.next()) {
+		                BoardItem item = new BoardItem();
+		                item.setNum(rs.getInt("num"));
+		                item.setName(rs.getString("name"));
+		                item.setTitle(rs.getString("title"));
+		                item.setRegDate(rs.getString("regDate"));
+		                item.setReadCount(rs.getInt("regCount"));
+		                item.setFile1(rs.getString("file1"));
+		                // ... 나머지 필드 설정
+		               
+		                boardItems.add(item);
+		            }
+		        } catch (ClassNotFoundException | SQLException e) {
+		            e.printStackTrace();
+		            // 예외 처리
+		        } finally {
+		            // 자원 해제
+		            try {
+		                if (rs != null) rs.close();
+		                if (pstmt != null) pstmt.close();
+		                if (conn != null) conn.close();
+		            } catch (SQLException e) {
+		                e.printStackTrace();
+		            }
+		        }
+
+		        return boardItems;
+		    }
+
+	  
 }

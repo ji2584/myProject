@@ -3,19 +3,22 @@ package controller;
 import java.io.IOException;
 import java.util.List;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.oreilly.servlet.MultipartRequest;
 
+import dao.BoardItem;
 import dao.MyBoardDao;
 
 import kic.mskim.MskimRequestMapping;
 import kic.mskim.RequestMapping;
-
+import model.Comment;
 import model.MyBoard;
 
 
@@ -165,6 +168,9 @@ public class BoardController extends MskimRequestMapping {
 		int num = Integer.parseInt(req.getParameter("num"));
 		
 		MyBoard board = bd.oneBoard(num);
+		List<Comment> commentLi=bd.commentList(num);
+		
+		req.setAttribute("commentLi", commentLi);
 		
 		req.setAttribute("MyBoard", board);
 		
@@ -259,6 +265,22 @@ public class BoardController extends MskimRequestMapping {
 	
 	
 	
+	@RequestMapping("boardCommentPro") 
+	public String boardCommentPro(HttpServletRequest req, HttpServletResponse res) throws Exception {
+		// TODO Auto-generated method stub
+		/*
+		 * req.setAttribute("comment", req.getParameter("comment"));
+		 * req.setAttribute("boardnum", req.getParameter("boardnum"));
+		 */
+		String comment = req.getParameter("comment");
+		int boardnum = Integer.parseInt(req.getParameter("boardnum"));
+		bd.insertComment( comment,boardnum);
+		Comment c= new Comment();
+		c.setNum(boardnum);
+		c.setContent(comment);
+		req.setAttribute("c", c);
+		return "/single/boardCommentPro.jsp";
+	}
 	
 	
 	
@@ -267,16 +289,30 @@ public class BoardController extends MskimRequestMapping {
 	
 	
 	
+	@RequestMapping("SearchServlet") 
+	public String SearchServlet (HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        // 클라이언트로부터 전달받은 검색 옵션과 검색어
+        String searchOption = request.getParameter("searchOption");
+        String searchText = request.getParameter("searchText");
+
+        // 여기서는 간단하게 콘솔에 출력하여 확인
+        System.out.println("Search Option: " + searchOption);
+        System.out.println("Search Text: " + searchText);
+
+        // 여기서 데이터베이스에 연결하여 적절한 쿼리를 실행하고 결과를 받아옴 (예: DAO 객체 활용)
+         List<BoardItem> searchResults = MyBoardDao.searchBoard(searchOption, searchText);
+        request.setAttribute("search     Results", searchResults); 
+
+        // 실제로는 데이터베이스에서 받아온 결과를 JSP에 전달할 수 있도록 설정하고, 해당 JSP로 포워딩
+         RequestDispatcher dispatcher = request.getRequestDispatcher("board.jsp");///???? 
+         dispatcher.forward(request, response);
+         return "/WEB-INF/view/alert.jsp";
+    }
 	
+		
 	
-	
-	
-	
-	
-	
-	
-	
+}
 	
 	
 
-}
+

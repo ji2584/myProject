@@ -4,23 +4,54 @@
   
 <!DOCTYPE html>
   
-  <body>    <!-- Section-->
+  <body>
+   <script>
+   function performSearch(){
+	   
+	   
+	   
+	   
+	   
+	   
+	   
+	   
+	   
+   }
+   
+   
+   
+   
+   </script>
+      <!-- Sect    ion-->
       <section> 
                 <h2> ${boardName} </h2>
  
 <hr class ="hr1" noshade> 
 
-<form>
+<form action= "SearchServlet" method="GET">
   <span class="right">
     <span class="grey" id="strong">SELECT</span>
-    <select id="searchOption">
+    <select name="searchOption">
       <option value="title">제목</option>
       <option value="name">작성자</option>
     </select>
-    <input type="text" id="searchText">
+    <input type="text" name="searchText">
     <input type="button" name="검색" class="gradient" value="검색" onclick="performSearch()">
   </span>
 </form>
+
+<c:forEach var="b" items="${searchResults}">  
+    <tr>
+        <td>${b.num}</td>
+        <td>${b.name}</td>
+        <td><a href="boardinfo?num=${b.num}">${b.title}</a></td>
+        <td>${b.regdate}</td>
+        <td>${b.readcnt}</td>
+        <td>${b.file1}</td>
+    </tr>
+</c:forEach>
+
+
 <table height="40%">
    <thead>
       <tr>
